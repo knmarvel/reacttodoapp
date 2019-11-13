@@ -9,7 +9,7 @@ class TodoList extends Component {
         <ul className="todo-list">
           {this.props.todos.map(todo => (
             <TodoItem 
-            handleDelete = {event => this.props.handleDelete(event, todo.id)} 
+            key = {todo.id}
             title={todo.title} 
             id = {todo.id} 
             completed={todo.completed} />
