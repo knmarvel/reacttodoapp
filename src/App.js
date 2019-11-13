@@ -6,7 +6,8 @@ import {
    Route,
    Link,
  } from "react-router-dom";
- import connect from "react-redux"
+ import { connect } from "react-redux"
+ import { addTodo } from "./actions.js"
 
 
 
@@ -34,34 +35,19 @@ class App extends Component {
     this.handleCount();
   };
 
-  handleToggle= (event, todoIdToToggle) =>{
-    todoIdToToggle = {todoIdToToggle}.todoIdToToggle
-    const newTodos2 = this.state.todos.slice()
-    for(let i = 0; i <newTodos2.length; i++){
-    if(newTodos2[i].id === todoIdToToggle && newTodos2[i].completed === true){
-      newTodos2[i].completed = false
-    }
-    else if(newTodos2[i].id === todoIdToToggle && newTodos2[i].completed === false){
-      newTodos2[i].completed = true
-    }
-  }
-    this.setState({todos: newTodos2});
-    this.handleCount();
-  }
-
-  handleNewToDoItems = (event) =>{
-    if(event.key=== 'Enter'){
-      console.log(this.state.todos.slice())
-      let typedText = document.getElementById("new-todo").value;
-      if (typedText !== ""){
-      const newTodos3 = this.state.todos.slice();
-      let findLastId = newTodos3[newTodos3.length-1].id+1
-      typedText = {"userId": 1, "id": findLastId, "title": typedText, "completed": false}
-      newTodos3.push(typedText)
-      this.setState({todos: newTodos3});
-      document.getElementById("new-todo").value=""}
-    }
-  }
+  // handleNewToDoItems = (event) =>{
+  //   if(event.key=== 'Enter'){
+  //     console.log(this.state.todos.slice())
+  //     let typedText = document.getElementById("new-todo").value;
+  //     if (typedText !== ""){
+  //     const newTodos3 = this.state.todos.slice();
+  //     let findLastId = newTodos3[newTodos3.length-1].id+1
+  //     typedText = {"userId": 1, "id": findLastId, "title": typedText, "completed": false}
+  //     newTodos3.push(typedText)
+  //     this.setState({todos: newTodos3});
+  //     document.getElementById("new-todo").value=""}
+  //   }
+  // }
 
   handleDeleteCompleted = (event) =>{
     const newTodos = this.state.todos.filter(
@@ -79,7 +65,7 @@ class App extends Component {
             className="new-todo"
             id = "new-todo"
             placeholder="What needs to be done?"
-            onKeyPress = {event => this.handleNewToDoItems(event)} 
+            onKeyPress = {event=> this.props.addTodo(event)} 
             autoFocus
           />
         </header>
@@ -88,9 +74,10 @@ class App extends Component {
           path="/"
           render={() =>
             <TodoList 
+            key = {this.props.id}
               handleDelete={this.handleDelete} 
-              handleToggle= {this.handleToggle} 
-              todos={this.state.todos}
+              id= {this.props.id}
+              todos={this.props.todos}
             />
         }/>
         <Route 
@@ -99,7 +86,7 @@ class App extends Component {
             <TodoList 
               handleDelete={this.handleDelete} 
               handleToggle= {this.handleToggle} 
-              todos={this.state.todos.filter(todo => todo.completed === false)}
+              todos={this.props.todos.filter(todo => todo.completed === false)}
             />
         }/>
         <Route 
@@ -129,3 +116,16 @@ class App extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    todos: state.todos
+  }
+}
+ const mapDispatchToProps = {
+   addTodo
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+) (App);

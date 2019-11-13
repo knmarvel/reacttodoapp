@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./index.css";
+import {connect} from "react-redux"
+import { toggleTodo } from "./actions.js"
 
 
 
@@ -12,7 +14,7 @@ class TodoItem extends Component {
             className="toggle"
             type="checkbox"
             checked={this.props.completed}
-            onClick = {this.props.handleToggle}
+            onClick = {()=>this.props.toggleTodo(this.props.id)}
           />
           <label>{this.props.title}</label>
           <button className="destroy" onClick={this.props.handleDelete}/>
@@ -21,5 +23,11 @@ class TodoItem extends Component {
     );
   }
 }
+const mapDispatchToProps = {
+  toggleTodo
+};
 
-export default TodoItem;
+export default connect(
+  null,
+  mapDispatchToProps
+)(TodoItem);
