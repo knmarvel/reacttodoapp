@@ -6,6 +6,8 @@ import {
    Route,
    Link,
  } from "react-router-dom";
+ import connect from "react-redux"
+
 
 
 
@@ -23,7 +25,7 @@ class App extends Component {
     return this.state.todos.length-finished.length;
   }
 
-  handleDelete = (todoIdToDelete) => {
+  handleDelete = (event, todoIdToDelete) => {
     console.log({todoIdToDelete}.todoIdToDelete)
     const newTodos = this.state.todos.filter(
       todo => todo.id !== {todoIdToDelete}.todoIdToDelete
@@ -32,7 +34,7 @@ class App extends Component {
     this.handleCount();
   };
 
-  handleToggle= (todoIdToToggle) =>{
+  handleToggle= (event, todoIdToToggle) =>{
     todoIdToToggle = {todoIdToToggle}.todoIdToToggle
     const newTodos2 = this.state.todos.slice()
     for(let i = 0; i <newTodos2.length; i++){
@@ -127,4 +129,3 @@ class App extends Component {
     );
   }
 }
-export default App;

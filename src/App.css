@@ -20,6 +20,11 @@
 
 .App-link {
   color: #61dafb;
+
+}
+
+:visited {
+  color: #07a4cf
 }
 
 @keyframes App-logo-spin {
